@@ -19,7 +19,7 @@ const LessonOverview: React.FC = () => {
     const getLessons = async () => {
         const res: AxiosResponse<Lesson[]> = await LessonService.getAllLessons();
         setLessons(res.data);
-    }
+    };
 
     return (
         <section>
@@ -34,19 +34,20 @@ const LessonOverview: React.FC = () => {
                     </tr>
                 </thead>
                 <tbody>
-                {lessons && lessons.map(lesson => (
-                        <tr>
-                            <td>{lesson.id}</td>
-                            <td>{lesson.startTimestamp}</td>
-                            <td>{lesson.endTimestamp}</td>
-                            <td>{lesson.courseName}</td>
-                            <td>{lesson.classGroupName}</td>
-                        </tr>
-                    ))}
+                    {lessons &&
+                        lessons.map((lesson) => (
+                            <tr>
+                                <td>{lesson.id}</td>
+                                <td>{lesson.startTimestamp}</td>
+                                <td>{lesson.endTimestamp}</td>
+                                <td>{lesson.course.name}</td>
+                                <td>{lesson.classGroup.name}</td>
+                            </tr>
+                        ))}
                 </tbody>
             </table>
         </section>
-    )
-}
+    );
+};
 
 export default LessonOverview;

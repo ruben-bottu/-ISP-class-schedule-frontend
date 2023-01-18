@@ -54,8 +54,8 @@ const CoursesOverviewTable: React.FC<Props> = ({ courses, onChange, clickable = 
                                 role={clickable ? 'button' : ''}
                             >
                                 <td>{course.name}</td>
-                                <td>{course.description}</td>
-                                <td className="text-center">{course.phase}</td>
+                                {/* <td>{course.description}</td>
+                                <td className="text-center">{course.phase}</td> */}
                             </tr>
                         ))}
                 </tbody>

@@ -4,6 +4,7 @@ import './App.css';
 import LecturerOverview from './components/lecturer-overview';
 import LecturerAdd from './components/lecturer-add';
 import LessonOverview from './components/lesson-overview';
+import CourseOverview from './components/courses-overview';
 
 function App() {
     return (
@@ -28,7 +29,10 @@ function App() {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/lessons">Overview lessons</Link>
+                            <Link to="/lessons" className="nav-link px-4 fs-5 text-white">Overview lessons</Link>
+                        </li>
+                        <li>
+                            <Link to="/courses" className="nav-link px-4 fs-5 text-white">Overview Courses</Link>
                         </li>
                     </ul>
                 </nav>
@@ -39,6 +43,7 @@ function App() {
                     <Route path="/overview" element={<LecturerOverview />} />
                     <Route path="/add" element={<LecturerAdd />} />
                     <Route path="/lessons" element={<LessonOverview />} />
+                    <Route path="/courses" element={<CourseOverview />} />
                 </Routes>
             </main>
         </>

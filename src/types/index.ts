@@ -1,8 +1,8 @@
 export interface Course {
+    id: number;
     name: string;
-    description: string;
-    phase: number;
 }
+
 export interface Lecturer {
     name: string;
     courses: Course[] | null;
@@ -18,12 +18,27 @@ export interface ScheduleProposal {
     combination: CourseAndClassGroupName[];
 }
 
+export interface ClassGroup {
+    id: number;
+    name: string;
+}
+
 export interface Lesson {
     id: number;
     startTimestamp: Date;
     endTimestamp: Date;
-    courseName: string;
-    classGroupName: string;
+    course: Course;
+    classGroup: ClassGroup;
+}
+
+export interface CourseAndClassGroup {
+    course: Course;
+    classGroup: ClassGroup;
+}
+
+export interface ClassScheduleProposal {
+    overlapCount: number;
+    combination: CourseAndClassGroup[];
 }
 
 export interface Response {
