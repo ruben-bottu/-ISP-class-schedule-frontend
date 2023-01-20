@@ -22,7 +22,7 @@ const ClassScheduleProposalsOverviewList: React.FC<Props> = ({
                             role="button"
                             className="mb-md-2 list-group-item border border-primary rounded"
                         >
-                            <p className="my-md-4 ms-md-2 lead text-primary">
+                            <p className="my-md-4 ms-md-2 lead">
                                 Number of overlaps: <strong>{proposal.overlapCount}</strong>
                             </p>
                             <table className="table table-hover">
