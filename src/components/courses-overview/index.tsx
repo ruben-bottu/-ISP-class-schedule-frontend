@@ -1,17 +1,20 @@
 import classNames from 'classnames';
 import React, { useState, useEffect } from 'react';
-import { Course, StatusMessage } from '../../types';
+import { ClassScheduleProposal, Course, StatusMessage } from '../../types';
 import CourseService from '../../services/CourseService';
 import { AxiosResponse } from 'axios';
 import CoursesOverviewTable from './CoursesOverviewTable';
 import CoursesOverviewList from './CoursesOverviewList';
+import ClassScheduleService from '../../services/ClassScheduleService';
+import ClassScheduleProposalsOverviewList from './ClassScheduleProposalsOverviewList';
 
 // https://blog.logrocket.com/why-react-doesnt-update-state-immediately/
-const CourseOverview: React.FC = () => {
+const ClassScheduleOverview: React.FC = () => {
     const MIN_AMOUNT_SELECTED_COURSES = 2;
     const [courses, setCourses] = useState<Course[]>([]);
     const [courseNameSearchInput, setCourseNameSearchInput] = useState<string>('');
     const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
+    const [proposals, setProposals] = useState<ClassScheduleProposal[]>([]);
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
 
     useEffect(() => {
@@ -23,20 +26,37 @@ const CourseOverview: React.FC = () => {
         setCourses(res.data);
     };
 
+    const removeAllWhiteSpace = (string: string): string => {
+        return string.replace(/\s+/g, '');
+    };
+
+    const toNoSpaceLowerCase = (string: string): string => {
+        return removeAllWhiteSpace(string).toLowerCase();
+    };
+
     const foundCourses = (): Course[] => {
-        if (!courseNameSearchInput) return [];
-        const lowerCaseSearchInput = courseNameSearchInput.toLowerCase();
-        return courses.filter(({ name }) => name.toLowerCase().includes(lowerCaseSearchInput));
+        const parsedSearchInput = toNoSpaceLowerCase(courseNameSearchInput);
+        if (!parsedSearchInput) return [];
+        return courses
+            .filter((course) => !selectedCourses.includes(course))
+            .filter(({ name }) => toNoSpaceLowerCase(name).includes(parsedSearchInput));
     };
 
     const onSelectCourse = (course: Course) => {
-        // if the course is already selected, tell the user it can only be selected once
-        // setStatusMessages([{ message: 'Course is already selected', type: 'error' }]);
-        setCourseNameSearchInput('');
+        /* if (selectedCourses.includes(course)) {
+            setStatusMessages([{ message: 'Course is already selected', type: 'error' }]);
+        } else { */
         setSelectedCourses([...selectedCourses, course]);
+        //}
+        setCourseNameSearchInput('');
     };
 
-    const onCalculateProposals = () => {};
+    const onCalculateProposals = async () => {
+        const res: AxiosResponse<ClassScheduleProposal[]> = await ClassScheduleService.getProposals(
+            selectedCourses
+        );
+        setProposals(res.data);
+    };
 
     return (
         <>
@@ -62,7 +82,7 @@ const CourseOverview: React.FC = () => {
             <section className="mb-md-5">
                 <input
                     type="text"
-                    className="form-control"
+                    className="form-control p-3"
                     placeholder="Search by course name"
                     value={courseNameSearchInput}
                     onChange={(event) => setCourseNameSearchInput(event.target.value)}
@@ -71,12 +91,13 @@ const CourseOverview: React.FC = () => {
             </section>
             <CoursesOverviewTable courses={selectedCourses} />
             {selectedCourses && selectedCourses.length >= MIN_AMOUNT_SELECTED_COURSES && (
-                <button onClick={onCalculateProposals} className="btn btn-primary mt-md-2">
+                <button onClick={onCalculateProposals} className="btn btn-primary mt-md-2 mb-md-5">
                     Calculate
                 </button>
             )}
+            <ClassScheduleProposalsOverviewList proposals={proposals} />
         </>
     );
 };
 
-export default CourseOverview;
+export default ClassScheduleOverview;

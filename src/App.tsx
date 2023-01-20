@@ -1,7 +1,7 @@
 import { Routes, Route, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import CourseOverview from './components/courses-overview';
+import ClassScheduleOverview from './components/courses-overview';
 
 function App() {
     return (
@@ -11,21 +11,21 @@ function App() {
                     className="fs-2 d-flex justify-content-center mb-2 mb-lg-0 text-white-50 text-decoration-none"
                     href="/"
                 >
-                    UCLL Lecturers
+                    ISP Class Schedule Generator
                 </a>
-                <nav>
+                {/* <nav>
                     <ul className="nav justify-content-center">
                         <li>
-                            <Link to="/courses" className="nav-link px-4 fs-5 text-white">
+                            <Link to="/" className="nav-link px-4 fs-5 text-white">
                                 Overview Courses
                             </Link>
                         </li>
                     </ul>
-                </nav>
+                </nav> */}
             </header>
             <main className="container mt-5">
                 <Routes>
-                    <Route path="/courses" element={<CourseOverview />} />
+                    <Route path="/" element={<ClassScheduleOverview />} />
                 </Routes>
             </main>
         </>
