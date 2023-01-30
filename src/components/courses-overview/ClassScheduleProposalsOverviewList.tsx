@@ -20,12 +20,12 @@ const ClassScheduleProposalsOverviewList: React.FC<Props> = ({
                             key={index}
                             onClick={() => handleOnClick(proposal)}
                             role="button"
-                            className="mb-md-2 list-group-item border border-primary rounded"
+                            className="mb-md-2 list-group-item border border-primary border-2 rounded"
                         >
-                            <p className="my-md-4 ms-md-2 lead">
-                                Number of overlaps: <strong>{proposal.overlapCount}</strong>
+                            <p className="my-md-4 ms-md-2 fs-4">
+                                Number of overlaps: {proposal.overlapCount}
                             </p>
-                            <table className="table table-hover">
+                            <table className="table table-hover table-borderless">
                                 <thead>
                                     <tr>
                                         <th scope="col">Course Name</th>

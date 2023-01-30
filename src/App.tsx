@@ -1,4 +1,5 @@
 import { Routes, Route, Link } from 'react-router-dom';
+import '@popperjs/core/dist/umd/popper.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import ClassScheduleOverview from './components/courses-overview';

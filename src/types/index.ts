@@ -3,21 +3,6 @@ export interface Course {
     name: string;
 }
 
-export interface Lecturer {
-    name: string;
-    courses: Course[] | null;
-}
-
-export interface CourseAndClassGroupName {
-    course_name: string;
-    class_group_name: string;
-}
-
-export interface ScheduleProposal {
-    collision_count: number;
-    combination: CourseAndClassGroupName[];
-}
-
 export interface ClassGroup {
     id: number;
     name: string;
