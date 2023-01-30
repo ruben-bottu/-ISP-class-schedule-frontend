@@ -99,30 +99,36 @@ const ClassScheduleOverview: React.FC = () => {
     return (
         <>
             <ToastContainer />
-            <h1>Class Schedule Generator</h1>
-            <p className="mb-md-4">
-                Select the courses that you want to follow and generate your ideal class schedule
-            </p>
-            <StatusMessagesOverview statusMessages={statusMessages} />
-            <section className="mb-md-5 position-relative">
-                <input
-                    type="text"
-                    className="form-control p-3"
-                    placeholder="Search by course name"
-                    value={courseNameSearchInput}
-                    onChange={(event) => setCourseNameSearchInput(event.target.value)}
+            <div className="container">
+                <h1>Class Schedule Generator</h1>
+                <p className="mb-md-4">
+                    Select the courses that you want to follow and generate your ideal class
+                    schedule
+                </p>
+                <StatusMessagesOverview statusMessages={statusMessages} />
+                <section className="mb-md-5 position-relative">
+                    <input
+                        type="text"
+                        className="form-control p-3"
+                        placeholder="Search by course name"
+                        value={courseNameSearchInput}
+                        onChange={(event) => setCourseNameSearchInput(event.target.value)}
+                    />
+                    <CoursesOverviewList courses={foundCourses()} handleOnClick={onSelectCourse} />
+                </section>
+                <CoursesOverviewTable
+                    courses={selectedCourses}
+                    handleOnDelete={onDeleteSelectedCourse}
                 />
-                <CoursesOverviewList courses={foundCourses()} handleOnClick={onSelectCourse} />
-            </section>
-            <CoursesOverviewTable
-                courses={selectedCourses}
-                handleOnDelete={onDeleteSelectedCourse}
-            />
-            {selectedCourses && selectedCourses.length >= MIN_AMOUNT_SELECTED_COURSES && (
-                <button onClick={onCalculateProposals} className="btn btn-primary mt-md-2 mb-md-5">
-                    Calculate
-                </button>
-            )}
+                {selectedCourses && selectedCourses.length >= MIN_AMOUNT_SELECTED_COURSES && (
+                    <button
+                        onClick={onCalculateProposals}
+                        className="btn btn-primary mt-md-2 mb-md-5"
+                    >
+                        Calculate
+                    </button>
+                )}
+            </div>
             <ClassScheduleProposalsOverviewList proposals={proposals} />
         </>
     );
