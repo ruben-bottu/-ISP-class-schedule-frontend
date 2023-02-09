@@ -23,7 +23,11 @@ const CoursesOverviewTable: React.FC<Props> = ({ courses, handleOnDelete = () =>
                         {courses.map((course, index) => (
                             <tr key={index}>
                                 <td>{course.name}</td>
-                                <td onClick={() => handleOnDelete(course)} role="button">
+                                <td
+                                    onClick={() => handleOnDelete(course)}
+                                    role="button"
+                                    className="d-flex justify-content-center"
+                                >
                                     <img
                                         src={deleteImg}
                                         alt="Delete"

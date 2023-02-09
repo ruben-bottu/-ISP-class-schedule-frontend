@@ -16,13 +16,13 @@ const ClassScheduleProposalsOverviewList: React.FC<Props> = ({
             {proposals && !!proposals.length && (
                 <section className="py-5" style={{ backgroundColor: '#70a7c2' }}>
                     <div className="container">
-                        <ul className="list-group">
+                        <ul className="list-group d-flex flex-row flex-wrap">
                             {proposals.map((proposal, index) => (
                                 <li
                                     key={index}
                                     onClick={() => handleOnClick(proposal)}
                                     role="button"
-                                    className="mb-md-2 list-group-item rounded"
+                                    className="me-md-2 mb-md-2 list-group-item rounded"
                                 >
                                     <p className="py-md-3 ps-md-2 mb-md-3 fs-4 border-bottom">
                                         Number of overlaps: {proposal.overlapCount}
