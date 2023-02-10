@@ -14,7 +14,8 @@ const ClassScheduleProposalsOverviewList: React.FC<Props> = ({
     return (
         <>
             {proposals && !!proposals.length && (
-                <section className="py-5" style={{ backgroundColor: '#70a7c2' }}>
+                <section className="py-5" style={{ backgroundColor: '#5BA0BF' }}>
+                    {/* #70a7c2 */}
                     <div className="container">
                         <ul className="list-group d-flex flex-row flex-wrap">
                             {proposals.map((proposal, index) => (
@@ -30,10 +31,10 @@ const ClassScheduleProposalsOverviewList: React.FC<Props> = ({
                                     <table className="table table-hover table-borderless">
                                         <thead>
                                             <tr>
-                                                <th scope="col" style={{ color: '#36657d' }}>
+                                                <th scope="col" style={{ color: '#FFA566' }}>
                                                     Course Name
                                                 </th>
-                                                <th scope="col" style={{ color: '#36657d' }}>
+                                                <th scope="col" style={{ color: '#FFA566' }}>
                                                     Class Group Name
                                                 </th>
                                             </tr>

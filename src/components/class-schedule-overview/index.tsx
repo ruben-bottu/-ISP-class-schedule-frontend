@@ -20,6 +20,7 @@ const ClassScheduleOverview: React.FC = () => {
     const [courseNameSearchInput, setCourseNameSearchInput] = useState<string>('');
     const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
     const [proposals, setProposals] = useState<ClassScheduleProposal[]>([]);
+    // setStatusMessages([{ message: 'Course is already selected', type: 'error' }]);
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
 
     useEffect(() => {
@@ -39,7 +40,7 @@ const ClassScheduleOverview: React.FC = () => {
         return removeAllWhiteSpace(string).toLowerCase();
     };
 
-    const foundCourses = (): Course[] => {
+    const findCoursesByNameIncludesSearchInput = (): Course[] => {
         const parsedSearchInput = toNoSpaceLowerCase(courseNameSearchInput);
         if (!parsedSearchInput) return [];
         return courses
@@ -48,15 +49,11 @@ const ClassScheduleOverview: React.FC = () => {
     };
 
     const onSelectCourse = (course: Course) => {
-        /* if (selectedCourses.includes(course)) {
-            setStatusMessages([{ message: 'Course is already selected', type: 'error' }]);
-        } else { */
         setSelectedCourses([...selectedCourses, course]);
-        //}
         setCourseNameSearchInput('');
     };
 
-    const onCalculateProposals = async () => {
+    const onGenerateProposals = async () => {
         const res: AxiosResponse<ClassScheduleProposal[]> = await ClassScheduleService.getProposals(
             selectedCourses
         );
@@ -100,7 +97,7 @@ const ClassScheduleOverview: React.FC = () => {
         <>
             <ToastContainer />
             <div className="container">
-                <h1>Class Schedule Generator</h1>
+                <h1 style={{ color: '#012442' }}>Class Schedule Generator</h1>
                 <p className="mb-md-4">
                     Select the courses that you want to follow and generate your ideal class
                     schedule
@@ -114,7 +111,10 @@ const ClassScheduleOverview: React.FC = () => {
                         value={courseNameSearchInput}
                         onChange={(event) => setCourseNameSearchInput(event.target.value)}
                     />
-                    <CoursesOverviewList courses={foundCourses()} handleOnClick={onSelectCourse} />
+                    <CoursesOverviewList
+                        courses={findCoursesByNameIncludesSearchInput()}
+                        handleOnClick={onSelectCourse}
+                    />
                 </section>
                 <CoursesOverviewTable
                     courses={selectedCourses}
@@ -122,10 +122,11 @@ const ClassScheduleOverview: React.FC = () => {
                 />
                 {selectedCourses && selectedCourses.length >= MIN_AMOUNT_SELECTED_COURSES && (
                     <button
-                        onClick={onCalculateProposals}
-                        className="btn btn-primary mt-md-2 mb-md-5"
+                        onClick={onGenerateProposals}
+                        className="btn mt-md-2 mb-md-5 w-100"
+                        style={{ color: 'white', backgroundColor: '#E38664' }}
                     >
-                        Calculate
+                        Generate
                     </button>
                 )}
             </div>

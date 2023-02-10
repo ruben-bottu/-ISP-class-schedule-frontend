@@ -11,6 +11,7 @@ function App() {
                 <a
                     className="fs-2 d-flex justify-content-center mb-2 mb-lg-0 text-decoration-none"
                     href="/"
+                    style={{ color: '#5BA0BF' }}
                 >
                     ISP Class Schedule Generator
                 </a>
