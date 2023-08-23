@@ -12,45 +12,51 @@ import CoursesOverviewList from './CoursesOverviewList';
 import ClassScheduleService from '../../services/ClassScheduleService';
 import ClassScheduleProposalsOverviewList from './ClassScheduleProposalsOverviewList';
 import StatusMessagesOverview from '../status-messages-overview/index';
+import SelectSearch from 'react-select-search';
+import FullCalendar from '@fullcalendar/react';
+import timeGridPlugin from '@fullcalendar/timegrid';
 
 // https://blog.logrocket.com/why-react-doesnt-update-state-immediately/
 const ClassScheduleOverview: React.FC = () => {
-    const MIN_AMOUNT_SELECTED_COURSES = 2;
-    const [courses, setCourses] = useState<Course[]>([]);
-    const [courseNameSearchInput, setCourseNameSearchInput] = useState<string>('');
+    const MIN_SELECTED_COURSES_COUNT = 2;
+    const [courses, setCourses] = useState<Course[]>([]); // called once
+    const [courseSearchInput, setCourseSearchInput] = useState<string>('');
     const [selectedCourses, setSelectedCourses] = useState<Course[]>([]);
+    const [foundCoursesByName, setFoundCoursesByName] = useState<Course[]>([]);
     const [proposals, setProposals] = useState<ClassScheduleProposal[]>([]);
-    // setStatusMessages([{ message: 'Course is already selected', type: 'error' }]);
+    // example: setStatusMessages([{ message: 'Course is already selected', type: 'error' }]);
     const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
-
-    useEffect(() => {
-        getCourses();
-    }, []);
 
     const getCourses = async () => {
         const res: AxiosResponse<Course[]> = await CourseService.getAllCourses();
         setCourses(res.data);
     };
 
-    const removeAllWhiteSpace = (string: string): string => {
-        return string.replace(/\s+/g, '');
-    };
+    useEffect(() => {
+        getCourses();
+    }, []);
 
-    const toNoSpaceLowerCase = (string: string): string => {
-        return removeAllWhiteSpace(string).toLowerCase();
-    };
+    const removeAllWhiteSpace = (string: string): string => string.replace(/\s+/g, '');
+
+    const toNoSpaceLowerCase = (string: string): string =>
+        removeAllWhiteSpace(string).toLowerCase();
 
     const findCoursesByNameIncludesSearchInput = (): Course[] => {
-        const parsedSearchInput = toNoSpaceLowerCase(courseNameSearchInput);
-        if (!parsedSearchInput) return [];
-        return courses
-            .filter((course) => !selectedCourses.includes(course))
-            .filter(({ name }) => toNoSpaceLowerCase(name).includes(parsedSearchInput));
+        const parsedSearchInput = toNoSpaceLowerCase(courseSearchInput);
+        return !parsedSearchInput
+            ? []
+            : courses
+                  .filter((course) => !selectedCourses.includes(course))
+                  .filter(({ name }) => toNoSpaceLowerCase(name).includes(parsedSearchInput));
     };
+
+    useEffect(() => {
+        setFoundCoursesByName(findCoursesByNameIncludesSearchInput());
+    }, [courseSearchInput]);
 
     const onSelectCourse = (course: Course) => {
         setSelectedCourses([...selectedCourses, course]);
-        setCourseNameSearchInput('');
+        setCourseSearchInput('');
     };
 
     const onGenerateProposals = async () => {
@@ -76,7 +82,7 @@ const ClassScheduleOverview: React.FC = () => {
     const onDeleteSelectedCourse = (course: Course) => {
         confirmAlert({
             title: 'Delete course?',
-            message: `Are you sure you want to delete ${course.name}?`,
+            message: `Are you sure you want to delete this course?`,
             buttons: [
                 {
                     label: 'Cancel',
@@ -97,7 +103,20 @@ const ClassScheduleOverview: React.FC = () => {
         <>
             <ToastContainer />
             <div className="container">
-                <h1 style={{ color: '#012442' }}>Class Schedule Generator</h1>
+                {/* <FullCalendar
+                    plugins={[timeGridPlugin]}
+                    initialView="timeGridWeek"
+                    events={[
+                        { title: 'event 1', date: '2023-04-01' },
+                        { title: 'event 2', date: '2023-04-02' },
+                        {
+                            title: 'cool event',
+                            start: '2023-04-03T12:00:00',
+                            end: '2023-04-03T16:00:00',
+                        },
+                    ]}
+                /> */}
+                <h1 style={{ color: '#012442' }}>Class Scheduler</h1>
                 <p className="mb-md-4">
                     Select the courses that you want to follow and generate your ideal class
                     schedule
@@ -108,11 +127,11 @@ const ClassScheduleOverview: React.FC = () => {
                         type="text"
                         className="form-control p-3"
                         placeholder="Search by course name"
-                        value={courseNameSearchInput}
-                        onChange={(event) => setCourseNameSearchInput(event.target.value)}
+                        value={courseSearchInput}
+                        onChange={(event) => setCourseSearchInput(event.target.value)}
                     />
                     <CoursesOverviewList
-                        courses={findCoursesByNameIncludesSearchInput()}
+                        courses={foundCoursesByName}
                         handleOnClick={onSelectCourse}
                     />
                 </section>
@@ -120,7 +139,7 @@ const ClassScheduleOverview: React.FC = () => {
                     courses={selectedCourses}
                     handleOnDelete={onDeleteSelectedCourse}
                 />
-                {selectedCourses && selectedCourses.length >= MIN_AMOUNT_SELECTED_COURSES && (
+                {selectedCourses && selectedCourses.length >= MIN_SELECTED_COURSES_COUNT && (
                     <button
                         onClick={onGenerateProposals}
                         className="btn mt-md-2 mb-md-5 w-100"

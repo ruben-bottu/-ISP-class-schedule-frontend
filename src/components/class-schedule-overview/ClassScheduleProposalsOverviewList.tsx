@@ -35,15 +35,15 @@ const ClassScheduleProposalsOverviewList: React.FC<Props> = ({
                                                     Course Name
                                                 </th>
                                                 <th scope="col" style={{ color: '#FFA566' }}>
-                                                    Class Group Name
+                                                    Group Name
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {proposal.combination.map(({ course, classGroup }) => (
+                                            {proposal.combination.map(({ course, group }) => (
                                                 <tr>
                                                     <td>{course.name}</td>
-                                                    <td>{classGroup.name}</td>
+                                                    <td>{group.name}</td>
                                                 </tr>
                                             ))}
                                         </tbody>

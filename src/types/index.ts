@@ -3,27 +3,28 @@ export interface Course {
     name: string;
 }
 
-export interface ClassGroup {
+export interface Group {
     id: number;
     name: string;
+}
+
+export interface CourseGroup {
+    id: number;
+    course: Course;
+    group: Group;
 }
 
 export interface Lesson {
     id: number;
     startTimestamp: Date;
     endTimestamp: Date;
-    course: Course;
-    classGroup: ClassGroup;
-}
-
-export interface CourseAndClassGroup {
-    course: Course;
-    classGroup: ClassGroup;
+    courseName: string;
+    groupName: string;
 }
 
 export interface ClassScheduleProposal {
     overlapCount: number;
-    combination: CourseAndClassGroup[];
+    combination: CourseGroup[];
 }
 
 export interface Response {

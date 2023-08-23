@@ -13,7 +13,7 @@ function App() {
                     href="/"
                     style={{ color: '#5BA0BF' }}
                 >
-                    ISP Class Schedule Generator
+                    ISP Class Scheduler
                 </a>
                 {/* <nav>
                     <ul className="nav justify-content-center">

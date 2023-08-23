@@ -11,7 +11,7 @@ const CoursesOverviewList: React.FC<Props> = ({ courses, handleOnClick = () => {
     return (
         <>
             {courses && !!courses.length && (
-                <ul className="list-group position-absolute">
+                <ul className="list-group position-absolute overflow-auto w-100">
                     {courses.map((course, index) => (
                         <li
                             key={index}
