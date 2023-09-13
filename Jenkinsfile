@@ -10,7 +10,10 @@ metadata:
 spec:
   containers:
   - name: docker
-    image: docker:dind
+    image: docker:20.10-dind  # Use a version that supports BuildKit
+    env:
+    - name: DOCKER_BUILDKIT
+      value: "1"
     tty: true
     volumeMounts:
     - name: docker-sock
@@ -44,7 +47,7 @@ spec:
                 container('docker') {
                     script {
                         def imageWithTag = "${env.DOCKER_REGISTRY}/${env.IMAGE_NAME}:${env.BRANCH_NAME}"
-                        sh "docker build -t ${imageWithTag} . "
+                        sh "docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t ${imageWithTag} ."
                     }
                 }
             }
