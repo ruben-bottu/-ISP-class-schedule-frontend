@@ -11,8 +11,6 @@ spec:
   containers:
   - name: docker
     image: docker:dind
-    command:
-    - cat
     tty: true
     volumeMounts:
     - name: docker-sock
@@ -31,9 +29,11 @@ spec:
     stages {
         stage('Login to Docker Registry') {
             steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'gitlab-reg-log', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh "docker login -u ${env.DOCKER_USERNAME} -p ${env.DOCKER_PASSWORD} ${env.DOCKER_REGISTRY}"
+                container('docker') {
+                    script {
+                        withCredentials([usernamePassword(credentialsId: 'gitlab-reg-log', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                            sh "docker login -u ${env.DOCKER_USERNAME} -p ${env.DOCKER_PASSWORD} ${env.DOCKER_REGISTRY}"
+                        }
                     }
                 }
             }
@@ -41,18 +41,22 @@ spec:
         
         stage('Build Docker Image') {
             steps {
-                script {
-                    def imageWithTag = "${env.DOCKER_REGISTRY}/${env.IMAGE_NAME}:${env.BRANCH_NAME}"
-                    sh "docker build -t ${imageWithTag} . "
+                container('docker') {
+                    script {
+                        def imageWithTag = "${env.DOCKER_REGISTRY}/${env.IMAGE_NAME}:${env.BRANCH_NAME}"
+                        sh "docker build -t ${imageWithTag} . "
+                    }
                 }
             }
         }
         
         stage('Push Docker Image') {
             steps {
-                script {
-                    def imageWithTag = "${env.DOCKER_REGISTRY}/${env.IMAGE_NAME}:${env.BRANCH_NAME}"
-                    sh "docker push ${imageWithTag}"
+                container('docker') {
+                    script {
+                        def imageWithTag = "${env.DOCKER_REGISTRY}/${env.IMAGE_NAME}:${env.BRANCH_NAME}"
+                        sh "docker push ${imageWithTag}"
+                    }
                 }
             }
         }
