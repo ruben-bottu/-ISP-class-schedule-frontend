@@ -27,7 +27,6 @@ spec:
         }
     }
     
-    }
     
     environment {
         DOCKER_REGISTRY = 'registry.iswleuven.be'
