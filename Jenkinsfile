@@ -6,23 +6,18 @@ apiVersion: v1
 kind: Pod
 metadata:
   labels:
-    jenkins: slave
+    jenkins: agent
 spec:
   containers:
-  - name: docker
-    image: docker:20.10-dind
-    privileged: true
-    env:
-    - name: DOCKER_BUILDKIT
-      value: "1"
-    tty: true
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:latest
     volumeMounts:
-    - name: docker-sock
-      mountPath: /var/run/docker.sock
+    - name: docker-config
+      mountPath: /kaniko/.docker/
   volumes:
-  - name: docker-sock
-    hostPath:
-      path: /var/run/docker.sock
+  - name: docker-config
+    configMap:
+      name: docker-config
 """
         }
     }
@@ -31,35 +26,15 @@ spec:
         IMAGE_NAME = 'student-projects/isp-class-schedule/backend'
     }
     stages {
-        stage('Login to Docker Registry') {
+        stage('Build and Push Docker Image') {
             steps {
-                container('docker') {
-                    script {
-                        withCredentials([usernamePassword(credentialsId: 'gitlab-reg-log', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                            sh "docker login -u ${env.DOCKER_USERNAME} -p ${env.DOCKER_PASSWORD} ${env.DOCKER_REGISTRY}"
-                        }
-                    }
-                }
-            }
-        }
-        
-        stage('Build Docker Image') {
-            steps {
-                container('docker') {
+                container('kaniko') {
                     script {
                         def imageWithTag = "${env.DOCKER_REGISTRY}/${env.IMAGE_NAME}:${env.BRANCH_NAME}"
-                        sh "docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t ${imageWithTag} ."
-                    }
-                }
-            }
-        }
-        
-        stage('Push Docker Image') {
-            steps {
-                container('docker') {
-                    script {
-                        def imageWithTag = "${env.DOCKER_REGISTRY}/${env.IMAGE_NAME}:${env.BRANCH_NAME}"
-                        sh "docker push ${imageWithTag}"
+                        sh """
+                        /kaniko/executor --context=${WORKSPACE} --dockerfile=${WORKSPACE}/Dockerfile \
+                        --destination=${imageWithTag} --cache=true
+                        """
                     }
                 }
             }
