@@ -10,7 +10,8 @@ metadata:
 spec:
   containers:
   - name: docker
-    image: docker:20.10-dind  # Use a version that supports BuildKit
+    image: docker:20.10-dind
+    privileged: true
     env:
     - name: DOCKER_BUILDKIT
       value: "1"
