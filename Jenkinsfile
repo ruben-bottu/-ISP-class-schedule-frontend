@@ -19,7 +19,7 @@ spec:
     }
     environment {
         DOCKER_REGISTRY = 'registry.iswleuven.be'
-        IMAGE_NAME = 'student-projects/isp-class-schedule/backend'
+        IMAGE_NAME = 'student-projects/isp-class-schedule/frontend'
     }
     stages {
         stage('Build and Push Docker Image') {
