@@ -1,8 +1,6 @@
 pipeline {
     agent {
         kubernetes {
-            // Define the Kubernetes pod where Jenkins should run
-            // You can customize this based on your requirements
             yaml """
 apiVersion: v1
 kind: Pod
@@ -26,8 +24,6 @@ spec:
 """
         }
     }
-    
-    
     environment {
         DOCKER_REGISTRY = 'registry.iswleuven.be'
         IMAGE_NAME = 'student-projects/isp-class-schedule/backend'
@@ -51,7 +47,7 @@ spec:
                 }
             }
         }
-
+        
         stage('Push Docker Image') {
             steps {
                 script {
