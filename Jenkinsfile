@@ -27,7 +27,7 @@ spec:
                 script {
                     withCredentials([usernamePassword(credentialsId: 'gitlab-reg-log', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         container('kaniko') {
-                            def imageWithTag = "${env.DOCKER_REGISTRY}/${env.IMAGE_NAME}:${env.BRANCH_NAME.replace('/', '-'))}"
+                            def imageWithTag = "${env.DOCKER_REGISTRY}/${env.IMAGE_NAME}:${env.BRANCH_NAME.replace('/', '-')}"
 
                             sh """
                             echo '{ "auths": { "${env.DOCKER_REGISTRY}": { "username": "${env.DOCKER_USERNAME}", "password": "${env.DOCKER_PASSWORD}" } } }' > /kaniko/.docker/config.json
