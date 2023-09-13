@@ -11,13 +11,7 @@ spec:
   containers:
   - name: kaniko
     image: gcr.io/kaniko-project/executor:latest
-    volumeMounts:
-    - name: docker-config
-      mountPath: /kaniko/.docker/
-  volumes:
-  - name: docker-config
-    configMap:
-      name: docker-config
+    tty: true
 """
         }
     }
@@ -28,13 +22,15 @@ spec:
     stages {
         stage('Build and Push Docker Image') {
             steps {
-                container('kaniko') {
-                    script {
-                        def imageWithTag = "${env.DOCKER_REGISTRY}/${env.IMAGE_NAME}:${env.BRANCH_NAME}"
-                        sh """
-                        /kaniko/executor --context=${WORKSPACE} --dockerfile=${WORKSPACE}/Dockerfile \
-                        --destination=${imageWithTag} --cache=true
-                        """
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'gitlab-reg-log', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        container('kaniko') {
+                            def imageWithTag = "${env.DOCKER_REGISTRY}/${env.IMAGE_NAME}:${env.BRANCH_NAME}"
+                            sh """
+                            echo '{ "auths": { "${env.DOCKER_REGISTRY}": { "username": "${env.DOCKER_USERNAME}", "password": "${env.DOCKER_PASSWORD}" } } }' > /kaniko/.docker/config.json
+                            /kaniko/executor --context=${WORKSPACE} --dockerfile=${WORKSPACE}/Dockerfile --destination=${imageWithTag} --cache=true
+                            """
+                        }
                     }
                 }
             }
