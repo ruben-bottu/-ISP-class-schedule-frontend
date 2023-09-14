@@ -4,5 +4,5 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN echo "API_URL=$API_URL" > .env
+RUN echo "API_URL=${API_URL}" > .env
 CMD ["npm", "run"]
