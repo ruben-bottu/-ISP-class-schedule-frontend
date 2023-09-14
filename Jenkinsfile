@@ -20,6 +20,7 @@ spec:
     environment {
         DOCKER_REGISTRY = 'registry.iswleuven.be'
         IMAGE_NAME = 'student-projects/isp-class-schedule/frontend'
+        API_URL = credentials('api-url')
     }
     stages {
         stage('Build and Push Docker Image') {
@@ -34,7 +35,7 @@ spec:
                             """
 
                             sh """
-                            /kaniko/executor --context=${WORKSPACE} --dockerfile=${WORKSPACE}/Dockerfile --destination=${imageWithTag} --cache=true
+                            /kaniko/executor --context=${WORKSPACE} --dockerfile=${WORKSPACE}/Dockerfile --destination=${imageWithTag} --build-arg API_URL=${env.API_URL} --cache=true
                             """
                         }
                     }

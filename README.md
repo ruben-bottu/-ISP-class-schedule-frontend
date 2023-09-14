@@ -14,3 +14,9 @@ Run the following commands in a terminal (project root folder) to install all re
 ```
 
 The frontend should now be running on `http://localhost:8001`.
+
+## Building with Docker
+
+```bash
+$ docker build -t localhost:5000/isp-frontend . --build-arg API_URL=http://something:8000
+```
