@@ -1,5 +1,4 @@
-import classNames from 'classnames';
-import React, { useState, useEffect } from 'react';
+import React, {  } from 'react';
 import { Course } from '../../types';
 import deleteImg from '../../images/garbage-bin.svg';
 

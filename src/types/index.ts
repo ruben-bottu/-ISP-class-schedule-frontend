@@ -23,7 +23,7 @@ export interface Lesson {
 }
 
 export interface ClassScheduleProposal {
-    overlapCount: number;
+    averageWeeklyOverlapCount: number;
     combination: CourseGroup[];
 }
 

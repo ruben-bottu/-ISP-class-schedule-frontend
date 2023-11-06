@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import React, { useState, useEffect } from 'react';
-import { Course, StatusMessage } from '../../types';
+import React, {  } from 'react';
+import { StatusMessage } from '../../types';
 
 type Props = {
     statusMessages: StatusMessage[];

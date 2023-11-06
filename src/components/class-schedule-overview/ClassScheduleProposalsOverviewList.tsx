@@ -1,6 +1,5 @@
-import classNames from 'classnames';
-import React, { useState, useEffect } from 'react';
-import { ClassScheduleProposal, Course } from '../../types';
+import React, {  } from 'react';
+import { ClassScheduleProposal } from '../../types';
 
 type Props = {
     proposals: ClassScheduleProposal[];
@@ -26,7 +25,7 @@ const ClassScheduleProposalsOverviewList: React.FC<Props> = ({
                                     className="me-md-2 mb-md-2 list-group-item rounded"
                                 >
                                     <p className="py-md-3 ps-md-2 mb-md-3 fs-4 border-bottom">
-                                        Number of overlaps: {proposal.overlapCount}
+                                        Number of overlaps: {proposal.averageWeeklyOverlapCount}
                                     </p>
                                     <table className="table table-hover table-borderless">
                                         <thead>
@@ -40,8 +39,8 @@ const ClassScheduleProposalsOverviewList: React.FC<Props> = ({
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {proposal.combination.map(({ course, group }) => (
-                                                <tr>
+                                            {proposal.combination.map(({ course, group }, index) => (
+                                                <tr key={index}>
                                                     <td>{course.name}</td>
                                                     <td>{group.name}</td>
                                                 </tr>

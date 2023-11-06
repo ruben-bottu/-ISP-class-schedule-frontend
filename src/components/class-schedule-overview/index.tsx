@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { useState, useEffect } from 'react';
 import { ClassScheduleProposal, Course, StatusMessage } from '../../types';
 import CourseService from '../../services/CourseService';
@@ -103,19 +102,6 @@ const ClassScheduleOverview: React.FC = () => {
         <>
             <ToastContainer />
             <div className="container">
-                {/* <FullCalendar
-                    plugins={[timeGridPlugin]}
-                    initialView="timeGridWeek"
-                    events={[
-                        { title: 'event 1', date: '2023-04-01' },
-                        { title: 'event 2', date: '2023-04-02' },
-                        {
-                            title: 'cool event',
-                            start: '2023-04-03T12:00:00',
-                            end: '2023-04-03T16:00:00',
-                        },
-                    ]}
-                /> */}
                 <h1 style={{ color: '#012442' }}>Class Scheduler</h1>
                 <p className="mb-md-4">
                     Select the courses that you want to follow and generate your ideal class
@@ -150,6 +136,19 @@ const ClassScheduleOverview: React.FC = () => {
                 )}
             </div>
             <ClassScheduleProposalsOverviewList proposals={proposals} />
+            {/* <FullCalendar
+                plugins={[timeGridPlugin]}
+                initialView="timeGridWeek"
+                events={[
+                    { title: 'event 1', date: '2023-04-01' },
+                    { title: 'event 2', date: '2023-04-02' },
+                    {
+                        title: 'cool event',
+                        start: '2023-04-03T12:00:00',
+                        end: '2023-04-03T16:00:00',
+                    },
+                ]}
+            /> */}
         </>
     );
 };

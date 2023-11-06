@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const Dotenv = require('dotenv-webpack');
+const webpack = require('webpack');
 
 module.exports = {
     entry: './src/index.tsx',
@@ -46,6 +46,6 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src', 'index.html'),
         }),
-        new Dotenv(),
+        new webpack.EnvironmentPlugin(['API_URL', 'CLASS_SCHEDULE_PATH', 'COURSES_PATH', 'PROPOSALS_PATH'])
     ],
 };

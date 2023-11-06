@@ -1,0 +1,26 @@
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Docker compose reference guide at
+# https://docs.docker.com/compose/compose-file/
+
+# Here the instructions define our application as a service called "server".
+# This service is built from the Dockerfile in the current directory.
+# You can add other services our application may depend on here, such as a
+# database or a cache. For examples, see the Awesome Compose repository:
+# https://github.com/docker/awesome-compose
+services:
+  server:
+    build:
+      context: .
+      args:
+        API_URL: http://localhost:8080
+        CLASS_SCHEDULE_PATH: /api/class-schedule
+        COURSES_PATH: /courses
+        PROPOSALS_PATH: /proposals
+    environment:
+      NODE_ENV: production webpack --mode production
+    ports:
+      - 8001:8001
+    volumes:
+      # Mount ./src from your local machine to /usr/src/app/src in the container.
+      # This enables live reloading.
+      - ./src:/usr/src/app/src
