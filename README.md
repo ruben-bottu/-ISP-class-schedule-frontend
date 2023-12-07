@@ -8,7 +8,7 @@ This application is made in React.
 
 1. Make sure that the backend server is running. If this is not the case yet, first follow the instructions at <https://github.com/ruben-bottu/class-scheduler-backend>
 
-2. Docker should be installed on your system. In case of Windows or MacOS, Docker Desktop should be running.
+2. [Docker](https://docs.docker.com/get-docker/) should be installed on your system. If you are on Windows or MacOS, Docker Desktop should be running.
 
 3. Run the command 
    ```
