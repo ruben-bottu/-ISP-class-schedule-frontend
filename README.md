@@ -1,6 +1,6 @@
 # Class Scheduler Frontend
 
-This project is for combi students who are struggling to put together a good Individual Study Program (ISP) or class schedule. 
+This project is for students who are taking courses from multiple years or curricula and are struggling to put together a good class schedule.
 
 This application is made in React.
 
