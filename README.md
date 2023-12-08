@@ -8,20 +8,24 @@ This application is made in React.
 
 1. Make sure that the backend server is running. If this is not the case yet, first follow the instructions at <https://github.com/ruben-bottu/class-scheduler-backend>
 
-2. [Docker](https://docs.docker.com/get-docker/) should be installed on your system. If you are on Windows or MacOS, Docker Desktop should be running.
+2. [Install Docker Desktop.](https://docs.docker.com/get-docker/)
 
-3. Run the command 
+3. Start Docker Desktop.
+
+4. Run the command 
    ```
    docker compose up -d
    ``` 
-   in your terminal. This will launch all the necessary docker containers and make the application available at port 8001.
+   in your terminal. This will launch all the necessary Docker Containers.
 
-4. You should now be able to browse to: <http://localhost:8001>
+5. Browse to: <http://localhost:8001>
+
+6. Search for the courses that you added in `secret-load.sql` in the backend.
 
 If you completed these steps, then your frontend is running smoothly.
 
 ## Building with Docker
 
 ```bash
-$ docker build -t localhost:5000/isp-frontend . --build-arg API_URL=http://something:8000
+docker build -t localhost:5000/isp-frontend . --build-arg API_URL=http://something:8000
 ```

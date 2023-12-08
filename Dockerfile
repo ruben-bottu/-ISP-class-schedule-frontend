@@ -4,7 +4,7 @@
 # If you need more help, visit the Dockerfile reference guide at
 # https://docs.docker.com/engine/reference/builder/
 
-# Build args
+# Build args.
 ARG NODE_VERSION=20.9.0
 ARG PNPM_VERSION=8.10.2
 
@@ -16,7 +16,7 @@ ARG CLASS_SCHEDULE_PATH
 ARG COURSES_PATH
 ARG PROPOSALS_PATH
 
-# Environment vars
+# Environment vars.
 ENV API_URL=$API_URL
 ENV CLASS_SCHEDULE_PATH=$CLASS_SCHEDULE_PATH
 ENV COURSES_PATH=$COURSES_PATH
